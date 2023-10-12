@@ -3,11 +3,7 @@ name: CI/CD Workflow
 on:
   push:
     branches:
-      - flowers  # Specify the "flowers" branch here
-
-  pull_request:
-    branches:
-      - flowers  # Specify the "flowers" branch here
+      - flowers
 
 jobs:
   build:
@@ -16,3 +12,16 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
+      with:
+        path: src/test/java/flower.store
+
+    - name: Set up Java
+      uses: actions/setup-java@v2
+      with:
+        java-version: 15
+
+    - name: Build with Maven
+      run: mvn clean package
+
+    - name: Run tests
+      run: mvn test
